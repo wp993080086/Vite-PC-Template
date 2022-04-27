@@ -14,7 +14,8 @@
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
-    "paths": { "@/*": [ "src/*" ] }
+    "paths": { "@/*": [ "src/*" ] },
+    "types": ["node"]
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "types/**/*.d.ts", "types/**/*.ts"],
   "exclude": ["node_modules", "dist", "**/*.js"]

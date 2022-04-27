@@ -8,7 +8,7 @@ export default defineConfig(({ mode }) => {
     base: loadEnv(mode, process.cwd()).VITE_BASE,
     resolve: {
       alias: {
-        "@": path.resolve(__dirname, "src")
+        '@': path.resolve(__dirname, 'src')
       }
     },
     server: {
@@ -19,7 +19,7 @@ export default defineConfig(({ mode }) => {
         '/api': {
           target: 'http://www.wangpeng.club',
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, '')
+          rewrite: paths => paths.replace(/^\/api/, '')
         }
       }
     },
@@ -30,6 +30,12 @@ export default defineConfig(({ mode }) => {
           chunkFileNames: 'static/js/[name]-[hash].js',
           entryFileNames: 'static/js/[name]-[hash].js',
           assetFileNames: 'static/[ext]/[name].[hash].[ext]',
+          manualChunks(id) {
+            // 将pinia的全局库实例打包进vendor，避免和页面一起打包造成资源重复引入
+            if (id.includes(path.resolve(__dirname, '/src/store/index.ts'))) {
+              return 'vendor'
+            }
+          }
         }
       }
     }

@@ -1,18 +1,26 @@
-<template>
-  <h1>{{ msg }}</h1>
-  <a-button type="primary">Primary Button</a-button>
-  <a-button>Default Button</a-button>
-  <a-button type="dashed">Dashed Button</a-button>
-</template>
-
 <script setup lang="ts">
-  import { ref } from 'vue'
-
-  const msg = ref('home')
+import HelloWorld from '@/components/helloWorld.vue'
+import { storeToRefs } from 'pinia'
+import appStore from '@/store'
+const { count } = storeToRefs(appStore.useCounterStoreForSetup)
+const { increment, doubleCount } = appStore.useCounterStoreForSetup
 </script>
 
-<style lang="less" scoped>
-  h1{
-    font-weight: 600;
-  }
-</style>
+<template>
+  <HelloWorld msg="Hello Vite" />
+  <div class="box-styl">
+    <h1>Setup模式</h1>
+    <p class="section-box">
+      Pinia的state: count = <b>{{ count }}</b>
+    </p>
+    <p class="section-box">
+      Pinia的getters: doubleCount() = <b>{{ doubleCount() }}</b>
+    </p>
+    <div class="section-box">
+      <p>Pinia的action: increment()</p>
+      <button @click="increment">点我</button>
+    </div>
+  </div>
+</template>
+
+<style></style>

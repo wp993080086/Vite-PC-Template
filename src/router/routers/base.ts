@@ -22,6 +22,14 @@ export default [
       title: '登录',
       showHeader: false
     }
+  },
+  {
+    path: '/home',
+    name: 'Home',
+    component: () => import('@/pages/home/index.vue'),
+    meta: {
+      title: '首页',
+      showHeader: false
+    }
   }
 ]
-
