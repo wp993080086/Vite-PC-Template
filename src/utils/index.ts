@@ -7,17 +7,17 @@ interface DebounceFunction<F extends Procedure> {
   cancel: () => void
 }
 /**
-* 返回数据类型
-* @param  {String} value 数据类型 比如 returnType(false) 返回 'Boolean'
-*/
+ * 返回数据类型
+ * @param  {String} value 数据类型 比如 returnType(false) 返回 'Boolean'
+ */
 export const returnType = (value: unknown) => {
   if (!Number.isNaN) {
-    Number.isNaN = function(val) {
-      return (typeof (val) === 'number' && window.isNaN(val))
+    Number.isNaN = function (val) {
+      return typeof val === 'number' && window.isNaN(val)
     }
   }
   let type
-  if (typeof (value) === 'number' && isNaN(value)) {
+  if (typeof value === 'number' && isNaN(value)) {
     type = 'NaN'
   } else {
     const info = Object.prototype.toString.call(value)
@@ -26,9 +26,9 @@ export const returnType = (value: unknown) => {
   return type
 }
 /**
-* 获取随机数
-* @param {Number} Limit 随机数上限
-*/
+ * 获取随机数
+ * @param {Number} Limit 随机数上限
+ */
 export const getRandom = (Limit = 10) => {
   return Math.round(Math.random() * Limit)
 }
@@ -38,7 +38,7 @@ export const getRandom = (Limit = 10) => {
  * @param {Function} 回调
  */
 export const validateMobile = (value: string, callback: (value?: Error) => void) => {
-  const RegExp = /^1\d{10}$/
+  const RegExp = /^1(3[0-9]|4[01456879]|5[0-35-9]|6[2567]|7[0-8]|8[0-9]|9[0-35-9])\d{8}$/
   if (value === '') {
     callback(new Error('请填写联系电话'))
   } else if (!RegExp.test(value)) {
@@ -109,16 +109,15 @@ export const debounce = <F extends Procedure>(
   return debounced
 }
 /**
-* 生成uuid
-* @param {String} prefix 前缀
-*/
+ * 生成uuid
+ * @param {String} prefix 前缀
+ */
 export const createUuid = (prefix = 'pdd') => {
   let Time = new Date().getTime()
-  const uuid = 'x_xx_xxx_xxxx'
-    .replace(/[xy]/g, (res) => {
-      const Random = (Time + Math.random() * 16) % 16 | 0
-      Time = Math.floor(Time / 16)
-      return (res === 'x' ? Random : (Random & 0x3 | 0x8)).toString(16)
-    })
+  const uuid = 'x_xx_xxx_xxxx'.replace(/[xy]/g, res => {
+    const Random = (Time + Math.random() * 16) % 16 | 0
+    Time = Math.floor(Time / 16)
+    return (res === 'x' ? Random : (Random & 0x3) | 0x8).toString(16)
+  })
   return `${prefix}_${uuid}`
 }

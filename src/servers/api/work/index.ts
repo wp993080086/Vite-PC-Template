@@ -1,6 +1,6 @@
-import Request from '@/services/request'
-import Module from '@/services/module'
-import { IList, IDetails, IEdit, ISplitWork } from './work'
+import Request from '@/servers/request'
+import Module from '@/servers/module'
+import { IList, IDetails, IEdit } from './work'
 
 export default {
   /**
@@ -40,17 +40,5 @@ export default {
    */
   editWkorder(param: IEdit) {
     return Request.post(Module.Work, '/operation/updateWoById', { ...param })
-  },
-  /**
-   * 拆分工单
-   * @param {String} wkorderId 工单ID
-   * @param {Number} tasksStatus 工单状态
-   * @param {String} teamName 团队名
-   * @param {String} manufacturerName 厂商名
-   * @param {String} storeName 门店名
-   * @param {Array} splitWoListInfoDTOs 师傅集合
-   */
-  splitWorkOrder(param: ISplitWork) {
-    return Request.post(Module.Work, '/operation/splitWorkOrder', { ...param })
   }
 }

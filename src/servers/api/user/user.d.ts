@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 export interface ILoginParam {
   accessToken: string
   channel?: string
@@ -17,8 +16,4 @@ export interface IUserDetails {
 
 export interface IUserReset {
   userId?: string
-}
-
-export interface ISwitchDept {
-  deptId: string
 }

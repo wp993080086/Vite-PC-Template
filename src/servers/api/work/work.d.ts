@@ -25,11 +25,3 @@ export interface IEdit {
   storeName?: string
   passReason?: string
 }
-export interface ISplitWork {
-  wkorderId: string
-  tasksStatus: number
-  teamName: string
-  manufacturerName: string
-  storeName: string
-  splitWoListInfoDTOs: TAnyArray
-}

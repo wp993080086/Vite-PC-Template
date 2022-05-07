@@ -25,8 +25,8 @@ function error(message: string, options?: ElMessageBoxOptions) {
 
 // 自定义Confirm
 function confirm(message: string, title = '温馨提示', opt: ElMessageBoxOptions = {}) {
-  opt.customClass = `${opt.customClass || ''} f-messagebox`
-  opt.cancelButtonClass = `${opt.cancelButtonClass || ''} is-plain`
+  opt.customClass = `${opt.customClass || ''} p_messagebox`
+  opt.cancelButtonClass = `${opt.cancelButtonClass || ''} is_plain`
   opt.cancelButtonText = opt.cancelButtonText || '取消'
   opt.confirmButtonText = opt.confirmButtonText || '确认'
   opt.closeOnPressEscape = false
@@ -35,7 +35,7 @@ function confirm(message: string, title = '温馨提示', opt: ElMessageBoxOptio
 
 // 自定义Alert
 function alert(message: string, title = '提示', opt: ElMessageBoxOptions = {}) {
-  opt.customClass = `${opt.customClass || ''} f-messagebox`
+  opt.customClass = `${opt.customClass || ''} p_messagebox`
   return ElMessageBox.alert(message, title, opt)
 }
 

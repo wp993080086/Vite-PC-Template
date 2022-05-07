@@ -5,5 +5,5 @@ export const errorCode = {
 
 export const baseRouter = {
   LOGIN: '/login',
-  NO_FOUND: '/not-found'
+  NOT_FOUND: '/not-found'
 }

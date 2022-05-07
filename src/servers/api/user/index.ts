@@ -1,6 +1,6 @@
-import Request from '@/services/request'
-import Module from '@/services/module'
-import { ILoginParam, IUserDetails, IUserReset, ISwitchDept } from './user'
+import Request from '@/servers/request'
+import Module from '@/servers/module'
+import { ILoginParam, IUserDetails, IUserReset } from './user'
 
 export default {
   /**
@@ -31,19 +31,5 @@ export default {
    */
   resetPwd(param: IUserReset) {
     return Request.post(Module.User, '/provider/resetPassword', { ...param })
-  },
-  /**
-   * 获取部门列表
-   * @param {string} userId 用户ID
-   */
-  getDeptList() {
-    return Request.post(Module.User, '/store/deptList', null)
-  },
-  /**
-   * 切换部门
-   * @param {string} userId 用户ID
-   */
-  switchDept(param: ISwitchDept) {
-    return Request.post(Module.User, '/store/switchDept', { ...param })
   }
 }
