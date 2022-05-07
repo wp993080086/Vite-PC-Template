@@ -4,15 +4,34 @@
 
 # 🚀 开发
 
-1. npm install
-2. npm run serve
+1. 安装
+
+```
+npm install
+```
+
+2. 运行
+
+```
+npm run serve
+```
 
 # 📦️ 多环境打包
 
-- npm run test_build
-- npm run build
+```
+<!-- 测试环境打包 -->
+npm run test_build
 
-# 🔧 代码格式检查
+<!-- 生产环境打包 -->
+npm run build
+```
 
-- npm run lint
-- npm run lint-fix
+# 🔧 代码检查修复
+
+```
+<!-- 格式检查 -->
+npm run lint
+
+<!-- 自动修复 -->
+npm run lint-fix
+```
