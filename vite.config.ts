@@ -1,10 +1,22 @@
 import { defineConfig, loadEnv } from 'vite'
 import path from 'path'
 import vue from '@vitejs/plugin-vue'
+import externalGlobals from 'rollup-plugin-external-globals'
+import viteCompression from 'vite-plugin-compression'
 
 export default defineConfig(({ mode }) => {
   return {
-    plugins: [vue()],
+    plugins: [
+      vue(),
+      // 生成gzip压缩包
+      viteCompression({
+        verbose: true,
+        disable: false,
+        threshold: 10240,
+        algorithm: 'gzip',
+        ext: '.gz'
+      })
+    ],
     base: loadEnv(mode, process.cwd()).VITE_BASE,
     resolve: {
       alias: {
@@ -12,7 +24,7 @@ export default defineConfig(({ mode }) => {
       }
     },
     server: {
-      host: '0.0.0.0',
+      host: 'localhost',
       port: 9527,
       open: true,
       proxy: {
@@ -25,6 +37,9 @@ export default defineConfig(({ mode }) => {
     },
     build: {
       assetsDir: 'static',
+      // 取消计算文件大小，加快打包速度
+      reportCompressedSize: false,
+      sourcemap: false,
       rollupOptions: {
         output: {
           chunkFileNames: 'static/js/[name]-[hash].js',
@@ -36,6 +51,33 @@ export default defineConfig(({ mode }) => {
               return 'vendor'
             }
           }
+        },
+        // CDN
+        external: ['vue', 'element-plus', 'vue-router', 'axios'],
+        plugins: [
+          externalGlobals({
+            vue: 'Vue',
+            'element-plus': 'ElementPlus',
+            'vue-router': 'VueRouter',
+            axios: 'axios'
+          })
+        ]
+      },
+      terserOptions: {
+        // 打包后移除console和注释
+        compress: {
+          // eslint-disable-next-line
+          drop_console: true,
+          // eslint-disable-next-line
+          drop_debugger: true
+        }
+      }
+    },
+    // 引入全局scss文件
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: '@import "./src/assets/styles/global.scss";'
         }
       }
     }

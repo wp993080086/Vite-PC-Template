@@ -1,19 +1,19 @@
-import { useCounterStoreForSetup } from '@/store/counterForSetup'
-import { useCounterStoreForOption } from '@/store/counterForOptions'
+import { menuModule } from '@/store/modules/menu'
+import { userModule } from '@/store/modules/user'
 
 export interface IAppStore {
-  useCounterStoreForSetup: ReturnType<typeof useCounterStoreForSetup>
-  useCounterStoreForOption: ReturnType<typeof useCounterStoreForOption>
+  userModule: ReturnType<typeof userModule>
+  menuModule: ReturnType<typeof menuModule>
 }
 
 const appStore: IAppStore = {} as IAppStore
 
 /**
- * 注册app状态库
+ * 注册store状态库
  */
 export const registerStore = () => {
-  appStore.useCounterStoreForSetup = useCounterStoreForSetup()
-  appStore.useCounterStoreForOption = useCounterStoreForOption()
+  appStore.userModule = userModule()
+  appStore.menuModule = menuModule()
 }
 
 export default appStore

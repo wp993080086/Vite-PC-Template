@@ -1,12 +1,3 @@
-<template>
-  <div id="not_found_box">
-    <div class="main"></div>
-    <div class="hint">抱歉，您访问的页面走丢了 ~</div>
-    <div class="btn_box">
-      <el-button type="primary" @click="toHome">返回首页</el-button>
-    </div>
-  </div>
-</template>
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 
@@ -16,6 +7,17 @@ const toHome = () => {
   Router.push({ name: 'Home' })
 }
 </script>
+
+<template>
+  <div id="not_found_box">
+    <div class="main"></div>
+    <div class="hint">抱歉，您访问的页面走丢了 ~</div>
+    <div class="btn_box">
+      <el-button type="primary" @click="toHome">返回首页</el-button>
+    </div>
+  </div>
+</template>
+
 <style lang="scss" scoped>
 #not_found_box {
   width: 100%;
