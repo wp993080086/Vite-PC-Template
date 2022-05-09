@@ -1,6 +1,7 @@
 import { defineConfig, loadEnv } from 'vite'
 import path from 'path'
 import vue from '@vitejs/plugin-vue'
+import vueJsx from '@vitejs/plugin-vue-jsx'
 import externalGlobals from 'rollup-plugin-external-globals'
 import viteCompression from 'vite-plugin-compression'
 
@@ -8,6 +9,7 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [
       vue(),
+      vueJsx(),
       // 生成gzip压缩包
       viteCompression({
         verbose: true,
