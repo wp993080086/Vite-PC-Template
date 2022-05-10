@@ -18,7 +18,7 @@
 
 # ⚡️ 简介
 
-一个开箱即用的 `Vite 2` + `Vue 3` + `Element Plus 2` + `Pinia` + `Vue-Router 4` 的PC端项目模板
+一个开箱即用的 `Vite 2` + `Vue 3` + `Element Plus 2` + `Pinia` + `Vue-Router 4` 的PC端项目模板。
 
 # 🚀 开发
 
