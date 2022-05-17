@@ -1,17 +1,6 @@
 import { reactive, toRefs } from 'vue'
 import { defineStore } from 'pinia'
-
-interface IMenuList {
-  title: string
-  index: string
-  icon?: string
-  children?: Array<IMenuList>
-}
-
-interface IMenu {
-  isCollapse: boolean
-  menu: Array<IMenuList>
-}
+import { IMenu } from './menu'
 
 // 使用setup模式定义
 export const menuModule = defineStore('menu', () => {
@@ -56,5 +45,9 @@ export const menuModule = defineStore('menu', () => {
     return data.isCollapse
   }
 
-  return { ...toRefs(data), getIsCollapse }
+  const changeIsCollapse = () => {
+    data.isCollapse = !data.isCollapse
+  }
+
+  return { ...toRefs(data), getIsCollapse, changeIsCollapse }
 })

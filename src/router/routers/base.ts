@@ -29,7 +29,7 @@ export default [
     component: () => import('@/pages/home/index.vue'),
     meta: {
       title: '首页',
-      showHeader: false
+      showHeader: true
     }
   }
 ]

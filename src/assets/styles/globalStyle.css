@@ -1,0 +1,10 @@
+/* 鼠标变小手 */
+.h_hand{
+  cursor: pointer;
+}
+/* 弹性盒子垂直水平居中 */
+.flex_c{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

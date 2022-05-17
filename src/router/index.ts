@@ -6,7 +6,7 @@ import base from './routers/base'
 const routes: Array<RouteRecordRaw> = [...base]
 
 const Router = createRouter({
-  history: createWebHistory(process.env.VUE_APP_ROUTER),
+  history: createWebHistory(import.meta.env.VUE_APP_ENV),
   routes
 })
 

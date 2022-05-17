@@ -1,10 +1,6 @@
 import { reactive, toRefs } from 'vue'
 import { defineStore } from 'pinia'
-
-interface IuserInfo {
-  userName: string
-  userId: string
-}
+import { IuserInfo } from './user'
 
 // 使用setup模式定义
 export const userModule = defineStore('user', () => {

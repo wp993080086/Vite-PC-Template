@@ -79,7 +79,7 @@ export default defineConfig(({ mode }) => {
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: '@import "./src/assets/styles/global.scss";'
+          additionalData: '@import "./src/assets/styles/globalColor.scss";'
         }
       }
     }

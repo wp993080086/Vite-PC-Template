@@ -25,7 +25,6 @@
     "pinia": "^2.0.13",
     "qs": "^6.10.3",
     "dplayer": "^1.26.0",
-    "normalize.css": "^8.0.1",
     "nprogress": "^0.2.0",
     "qrcodejs2": "0.0.2",
     "element-plus": "^2.1.11"
