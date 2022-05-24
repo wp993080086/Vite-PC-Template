@@ -1,7 +1,24 @@
 <script setup lang="ts"></script>
 
 <template>
-  <h1>登录</h1>
+  <div class="login_box">
+    <div class="login_left"></div>
+    <div class="login_right"></div>
+  </div>
 </template>
 
-<style></style>
+<style lang="scss" scoped>
+.login_box {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  .login_left {
+    width: 50%;
+    height: 100%;
+  }
+  .login_right {
+    width: 50%;
+    height: 100%;
+  }
+}
+</style>

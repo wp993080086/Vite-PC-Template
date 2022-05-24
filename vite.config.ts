@@ -65,6 +65,7 @@ export default defineConfig(({ mode }) => {
           })
         ]
       },
+      minify: 'terser',
       terserOptions: {
         // 打包后移除console和注释
         compress: {
