@@ -18,7 +18,7 @@
 
 # ⚡️ 简介
 
-一个开箱即用，基于 `Vite 2` + `Vue 3` + `typeScript` + `Element Plus` + `Pinia` + `Vue-Router 4` 的PC端项目模板。
+一个开箱即用，基于 `vite 2` + `vue 3` + `typeScript` + `element Plus` + `pinia` + `vue-router 4` 的PC端项目模板。
 
 # 🚀 开发
 
