@@ -3,9 +3,8 @@
   "private": true,
   "version": "1.0.0",
   "author": {
-    "name": "wangpeng",
-    "email": "993080086@qq.com",
-    "url": "https://github.com/wp993080086/Vite-PC-Template"
+    "name": "鹏多多",
+    "email": "993080086@qq.com"
   },
   "scripts": {
     "serve": "vite --mode development",
