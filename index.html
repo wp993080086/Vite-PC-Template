@@ -4,17 +4,16 @@
     <meta charset="UTF-8" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- CDN -->
-    <link rel="stylesheet" href="https://unpkg.com/element-plus@2.1.10/dist/index.css">
+    <% for (var i in cssCdn) { %>
+      <link href="<%= cssCdn[i] %>" rel="stylesheet" />
+    <% } %>
     <title>Vite App</title>
   </head>
   <body>
     <div id="app"></div>
-    <!-- CDN -->
-    <script src="https://unpkg.com/vue@3.2.33/dist/vue.global.prod.js"></script>
-    <script src="https://unpkg.com/element-plus@2.1.10/dist/index.full.min.js"></script>
-    <script src="https://unpkg.com/axios@0.26.1/dist/axios.min.js"></script>
-    <script src="https://unpkg.com/vue-router@4.0.14/dist/vue-router.global.prod.js"></script>
+    <% for (let i in jsCdn) { %>
+      <script src="<%= jsCdn[i] %>"></script>
+    <% } %>
     <!-- 入口文件 -->
     <script type="module" src="/src/main.ts"></script>
   </body>

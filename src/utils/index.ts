@@ -1,11 +1,5 @@
-type Procedure = (...args: TAny[]) => TAny
-interface ThrottleFunction<F extends Procedure> {
-  (this: ThisParameterType<F>, ...args: Parameters<F>): void
-}
-interface DebounceFunction<F extends Procedure> {
-  (this: ThisParameterType<F>, ...args: Parameters<F>): void
-  cancel: () => void
-}
+import { IThrottleFunction, IDebounceFunction } from './utils'
+
 /**
  * 返回数据类型
  * @param  {String} value 数据类型 比如 returnType(false) 返回 'Boolean'
@@ -65,7 +59,7 @@ export const sleep = (ms = 500) => {
  * @param {Function} fn 事件
  * @param {Number} limit 触发间隔
  */
-export const throttle = <F extends Procedure>(fn: F, limit = 200): ThrottleFunction<F> => {
+export const throttle = <F extends TAnyFunc>(fn: F, limit = 200): IThrottleFunction<F> => {
   let wait = false
   return function (this: void, ...args: Parameters<F>) {
     if (wait === false) {
@@ -84,11 +78,11 @@ export const throttle = <F extends Procedure>(fn: F, limit = 200): ThrottleFunct
  * @param {Function} fn 事件
  * @param {Number} immediate 是否立即触发一次
  */
-export const debounce = <F extends Procedure>(
+export const debounce = <F extends TAnyFunc>(
   wait: number,
   fn: F,
   immediate = false
-): DebounceFunction<F> => {
+): IDebounceFunction<F> => {
   let timeout: NodeJS.Timeout
   const debounced = function (this: ThisParameterType<F>, ...args: Parameters<F>) {
     const later = () => {

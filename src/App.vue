@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { watch, ref } from 'vue'
-import Header from '@/components/header/index.vue'
+import Header from '@/components/header/header'
 import leftMemu from '@/components/layout/index.vue'
 import { useRouter } from 'vue-router'
 

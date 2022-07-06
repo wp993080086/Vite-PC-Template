@@ -7,11 +7,7 @@ module.exports = {
   jsxBracketSameLine: false, // 在jsx中把'>' 是否单独放一行
   jsxSingleQuote: false, // 在jsx中使用单引号代替双引号
   proseWrap: 'preserve', // "always" - 当超出print width（上面有这个参数）时就折行 "never" - 不折行 "perserve" - 按照文件原样折行
-  // parser: 'babylon', // 格式化的解析器，默认是babylon
   trailingComma: 'none', // 对象最后一项默认格式化会加逗号
   arrowParens: 'avoid', // 箭头函数参数括号 默认avoid 可选 avoid(能省略括号的时候就省略)| always(总是有括号)
   bracketSpacing: true, // 对象中的空格 默认true{ foo: bar } false:{foo: bar}
-  // wrap_attributes: 'force',
-  // endOfLine: 'lf',
-  // htmlWhitespaceSensitivity: 'css', // 根据显示样式决定 html 要不要折行
 }
