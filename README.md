@@ -34,6 +34,20 @@ npm install
 npm run serve
 ```
 
+> 如果不需要使用jsx/tsx，请做如下操作。
+
+- 删除`tsconfig.json`文件里的 `"plugins": [{"name": "typescript-plugin-css-modules"}]`
+- 删除`vite.config.ts`文件里的 `requireModuleExtension: true`
+
+> 否则，请在根目录创建.vscode文件夹，并创建settings.json文件，并写入如下代码
+
+```
+{
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true
+}
+```
+
 # 📦️ 多环境打包
 
 - 测试环境打包
