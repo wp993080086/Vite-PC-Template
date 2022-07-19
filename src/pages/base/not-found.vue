@@ -29,7 +29,7 @@ const toHome = () => {
   .main {
     width: 536px;
     height: 261px;
-    background: url('../../assets/images/404.png') 50% no-repeat;
+    background: url('../../static/images/404.png') 50% no-repeat;
     background-size: 100% 100%;
     margin: 18vh auto 0;
   }

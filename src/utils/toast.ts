@@ -1,48 +1,65 @@
-import { ElMessage, ElMessageBox, ElMessageBoxOptions } from 'element-plus'
+import {
+  ElMessage,
+  ElMessageBox,
+  ElNotification,
+  MessageProps,
+  ElMessageBoxOptions,
+  NotificationParams
+} from 'element-plus'
 
-// 成功：顶部短消息提示
-function success(message = '操作成功') {
+/**
+ * toast轻提示
+ * @param {String} message
+ * @param {MessageParams} option
+ */
+export const Toast = (message: string, option: Partial<MessageProps> = {}) => {
   return ElMessage({
-    type: 'success',
     message,
-    showClose: true
+    showClose: true,
+    grouping: true,
+    duration: 2000,
+    ...option
   })
 }
-
-// 警告：顶部短消息提示
-function warn(message = '操作成功') {
-  return ElMessage({
-    type: 'error',
-    message,
-    showClose: true
-  })
+/**
+ * alert提示框
+ * @param {String} message
+ * @param {ElMessageBoxOptions} config
+ */
+export const Alert = (message: string, config: ElMessageBoxOptions = {}) => {
+  const defaultOption = {
+    title: '温馨提示',
+    closeOnClickModal: false,
+    closeOnPressEscape: false,
+    confirmButtonText: '确认',
+    draggable: true,
+    customClass: `${config.customClass || ''} p_messagebox`
+  }
+  const option = { ...defaultOption, ...config }
+  return ElMessageBox.alert(message, option)
 }
-
-// 失败：提示错误语
-function error(message: string, options?: ElMessageBoxOptions) {
-  return ElMessageBox.alert(message || '操作失败', '错误', options)
+/**
+ * confirm确认框
+ * @param {String} message
+ * @param {ElMessageBoxOptions} config
+ */
+export const Confirm = (message: string, config: ElMessageBoxOptions = {}) => {
+  const defaultOption = {
+    title: '温馨提示',
+    closeOnClickModal: false,
+    closeOnPressEscape: false,
+    confirmButtonText: '确认',
+    cancelButtonText: '取消',
+    draggable: true,
+    customClass: `${config.customClass || ''} p_messagebox`
+  }
+  const option = { ...defaultOption, ...config }
+  return ElMessageBox.confirm(message, option)
 }
-
-// 自定义Confirm
-function confirm(message: string, title = '温馨提示', opt: ElMessageBoxOptions = {}) {
-  opt.customClass = `${opt.customClass || ''} p_messagebox`
-  opt.cancelButtonClass = `${opt.cancelButtonClass || ''} is_plain`
-  opt.cancelButtonText = opt.cancelButtonText || '取消'
-  opt.confirmButtonText = opt.confirmButtonText || '确认'
-  opt.closeOnPressEscape = false
-  return ElMessageBox.confirm(message, title, opt)
-}
-
-// 自定义Alert
-function alert(message: string, title = '提示', opt: ElMessageBoxOptions = {}) {
-  opt.customClass = `${opt.customClass || ''} p_messagebox`
-  return ElMessageBox.alert(message, title, opt)
-}
-
-export default {
-  success,
-  warn,
-  error,
-  alert,
-  confirm
+/**
+ * notification通知
+ * @param {NotificationParams} option
+ */
+export const Notification = (option: NotificationParams = {}) => {
+  return ElNotification(option)
 }
