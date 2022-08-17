@@ -1,9 +1,10 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import qs from 'qs'
 import Module from './module'
-import { errorCode, baseRouter } from '@/config'
-import Toast from '@/utils/toast'
+import { errorCode, baseRouter, httpCode } from '@/config'
+import { Toast, Alert } from '@/utils/toast'
 import { getToken } from '@/servers/token'
+import { deleteStorage } from '@/utils/index'
 import { TQueryType, THaveCode, TParams, TRequestType, THttpResponse } from './request.d'
 
 const baseURL = import.meta.env.VUE_APP_URL
@@ -55,43 +56,32 @@ instance.interceptors.response.use(
     const key = data.code.slice(-5)
     if (key !== errorCode.SUCCESS) {
       if (key === errorCode.EXPIRE) {
-        sessionStorage.removeItem('userInfo')
-        sessionStorage.removeItem('userDetails')
-        Toast.alert('登录状态过期，请重新登录 !', '温馨提示', { showClose: false }).then(() => {
+        deleteStorage(['userInfo', 'userDetails'])
+        Alert('登录状态过期，请重新登录 !', { showClose: false }).then(() => {
           window.location.href = baseRouter.LOGIN
         })
+      } else {
+        Toast(`${data.code}：${data.message}`, { type: 'error' })
       }
-      return Toast.warn(data.message)
+      return Promise.reject(new Error(data.message || '请求出错了'))
     }
     return data
   },
   error => {
-    // 请求失败
-    try {
-      const errorInfo = error.response
-      const status = (errorInfo.status || 0) * 1
-      Toast.error(errorInfo.data.message)
-      switch (status) {
-        case 400:
-          console.error('400 服务器不理解该请求 ！')
-          break
-        case 403:
-          console.error('403 服务器拒绝该请求 ！')
-          break
-        case 404:
-          console.error('404 服务器找不到该请求 ！')
-          break
-        case 500:
-          console.error('500 系统内部错误 ！')
-          break
-        default:
-          console.error(errorInfo.data.message || '系统错误 ！')
-      }
-      return Promise.reject(errorInfo)
-    } catch (e) {
-      Toast.error('网络开小差啦 ！')
-      return Promise.reject(new Error('网络开小差啦 ！'))
+    const { response } = error
+    const resData = response?.data
+    let errorMsg = `${response?.status || error.message}：请求出错啦 ~`
+    const httpMessage = httpCode.find(item => item.code === response?.status)
+    if (httpMessage) {
+      errorMsg = httpMessage.message
+      console.error(httpMessage.message)
     }
+    if (resData?.message && resData?.code) {
+      Toast(`${resData.code}：${resData.message}`, { type: 'error', duration: 3000 })
+    } else {
+      Toast(errorMsg, { type: 'error', duration: 3000 })
+    }
+    return Promise.reject(response)
   }
 )
 
@@ -114,7 +104,7 @@ export default {
   async get<T = TAny>(
     module: Module,
     path: string,
-    data?: TDict<TAny>,
+    data?: TDictObject<TAny>,
     config?: Partial<AxiosRequestConfig>
   ) {
     const url = makeUrl('get', module, path, data)
@@ -123,7 +113,7 @@ export default {
   async post<T = TAny>(
     module: Module,
     path: string,
-    data?: TDict<TAny> | null,
+    data?: TDictObject<TAny> | null,
     config?: Partial<AxiosRequestConfig>
   ) {
     const url = makeUrl('post', module, path, data)

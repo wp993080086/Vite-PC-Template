@@ -115,3 +115,65 @@ export const createUuid = (prefix = 'pdd') => {
   })
   return `${prefix}_${uuid}`
 }
+/**
+ * 设置本地storage
+ * @param {String} key 键
+ * @param {Any} data 数据源
+ * @param {String} type 存储类型 local || session
+ */
+export const setStorage = (
+  key: string,
+  data: string | number | TAnyArray | TAnyType,
+  type: 'session' | 'local' = 'session'
+) => {
+  const env = process.env.NODE_ENV as string
+  if (type === 'session') {
+    sessionStorage.setItem(`${key}_${env}`, JSON.stringify(data))
+  } else {
+    localStorage.setItem(`${key}_${env}`, JSON.stringify(data))
+  }
+}
+/**
+ * 获取本地storage
+ * @param {String} key 键
+ * @param {String} type 存储类型 local || session
+ */
+export const getStorage = (key: string, type: 'session' | 'local' = 'session') => {
+  const env = process.env.NODE_ENV as string
+  const target =
+    type === 'session'
+      ? sessionStorage.getItem(`${key}_${env}`)
+      : localStorage.getItem(`${key}_${env}`)
+  return target ? JSON.parse(target) : target
+}
+
+/**
+ * 删除本地storage
+ * @param {String} key 键 || 'all' || 键数组
+ * @param {String} type 存储类型 local || session
+ */
+export const deleteStorage = (
+  key: 'all' | string | string[],
+  type: 'session' | 'local' = 'session'
+) => {
+  const env = process.env.NODE_ENV as string
+  if (typeof key === 'string') {
+    if (key === 'all') {
+      type === 'session' ? sessionStorage.clear() : localStorage.clear()
+    } else {
+      type === 'session'
+        ? sessionStorage.removeItem(`${key}_${env}`)
+        : localStorage.removeItem(`${key}_${env}`)
+    }
+  } else if (key.length > 0) {
+    if (type === 'session') {
+      key.forEach(item => {
+        sessionStorage.removeItem(`${item}_${env}`)
+      })
+    } else {
+      key.forEach(item => {
+        localStorage.removeItem(`${item}_${env}`)
+      })
+    }
+  }
+}
