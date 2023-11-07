@@ -3,9 +3,6 @@ import path from 'path'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import viteCompression from 'vite-plugin-compression'
-import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 export default defineConfig(({ mode }) => {
 	return {
@@ -19,14 +16,6 @@ export default defineConfig(({ mode }) => {
 				threshold: 10240,
 				algorithm: 'gzip',
 				ext: '.gz'
-			}),
-			AutoImport({
-				resolvers: [ElementPlusResolver()]
-			}),
-			Components({
-				resolvers: [ElementPlusResolver()],
-				globs: ['!src/components/*.vue'],
-				types: []
 			})
 		],
 		base: '/',
@@ -63,7 +52,7 @@ export default defineConfig(({ mode }) => {
 					}
 				}
 			},
-			chunkSizeWarningLimit: 1000 * 1024,
+			chunkSizeWarningLimit: 1024 * 1024,
 			minify: 'terser',
 			terserOptions: {
 				// 打包后移除console和注释
