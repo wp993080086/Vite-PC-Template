@@ -1,23 +1,28 @@
 import { ElLoading } from 'element-plus'
 
-const LOADING_TIMEOUT = 0
-
 let loading: ReturnType<typeof ElLoading.service>
-let timeout: ReturnType<typeof setTimeout>
+let timer: NodeJS.Timeout
 
 export default {
-  show(options = {}) {
-    timeout = setTimeout(() => {
-      loading = ElLoading.service({ fullscreen: true, body: true, lock: true, ...options })
-    }, LOADING_TIMEOUT)
-    return loading
-  },
-
-  hide() {
-    if (loading) {
-      loading.close()
-    }
-    clearTimeout(timeout)
-    return loading
-  }
+	/**
+	 * @description 打开Loading
+	 * @param options 配置
+	 * @param 超时毫秒
+	 */
+	show(options = {}, timeout = 0) {
+		timer = setTimeout(() => {
+			loading = ElLoading.service({ fullscreen: true, body: true, lock: true, ...options })
+		}, timeout)
+		return loading
+	},
+	/**
+	 * @description 隐藏Loading
+	 */
+	hide() {
+		if (loading) {
+			loading.close()
+		}
+		clearTimeout(timer)
+		return loading
+	}
 }

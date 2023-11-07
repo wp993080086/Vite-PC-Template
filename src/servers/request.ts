@@ -1,122 +1,81 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
-import qs from 'qs'
-import Module from './module'
-import { errorCode, baseRouter, httpCode } from '@/config'
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { Toast, Alert } from '@/utils/toast'
-import { getToken } from '@/servers/token'
-import { deleteStorage } from '@/utils/index'
-import { TQueryType, THaveCode, TParams, TRequestType, THttpResponse } from './request.d'
+import { superLocal, superSession } from '@/utils/storage'
+import { HTTP_CODE, TIMEOUT_LIMIT, ERROR_CODE } from '@/constants'
+import { THttpResponse } from '@/types/common'
+import { getToken } from '@/utils/token'
 
-const baseURL = import.meta.env.VUE_APP_URL
-const envType = import.meta.env.VUE_APP_ENV
-axios.defaults.withCredentials = true
+export const createAxiosExamples = (config?: AxiosRequestConfig): AxiosInstance => {
+	const instance = axios.create({
+		baseURL: import.meta.env.VITE_API_URL,
+		timeout: TIMEOUT_LIMIT,
+		withCredentials: true, // 跨域携带cookie
+		headers: { 'Content-Type': 'application/json' },
+		...config // 自定义配置
+	})
 
-console.log(`${envType}：${baseURL}`)
+	/**
+	 * @description 请求拦截器
+	 */
+	instance.interceptors.request.use(
+		(config) => {
+			const T = getToken()
+			if (T) {
+				config.headers['Authorization'] = `Bearer ${T}`
+			}
+			return config
+		},
+		(error) => {
+			return Promise.reject(error)
+		}
+	)
 
-if (envType !== 'LOCAL') {
-  axios.defaults.baseURL = baseURL
-}
-
-declare module 'axios' {
-  export interface AxiosRequestConfig {
-    module?: string
-    loading?: boolean
-    noAccessToken?: boolean
-    isForm?: boolean
-    token?: string
-  }
-}
-
-// axios实例
-const instance = axios.create({
-  timeout: 15 * 1000,
-  headers: {
-    ContentType: 'application/json;charset=utf-8',
-    AccessControlAllowOrigin: '*'
-  }
-})
-
-// 请求拦截器
-instance.interceptors.request.use(
-  (config: AxiosRequestConfig) => {
-    if (!config.noAccessToken) {
-      ;(config.headers as AxiosRequestConfig).token = getToken()
-    }
-    return config
-  },
-  error => {
-    return Promise.reject(error)
-  }
-)
-
-// 响应拦截器
-instance.interceptors.response.use(
-  (response: AxiosResponse<THttpResponse & THaveCode>) => {
-    const { data } = response
-    const key = data.code.slice(-5)
-    if (key !== errorCode.SUCCESS) {
-      if (key === errorCode.EXPIRE) {
-        deleteStorage(['userInfo', 'userDetails'])
-        Alert('登录状态过期，请重新登录 !', { showClose: false }).then(() => {
-          window.location.href = baseRouter.LOGIN
-        })
-      } else {
-        Toast(`${data.code}：${data.message}`, { type: 'error' })
-      }
-      return Promise.reject(new Error(data.message || '请求出错了'))
-    }
-    return data
-  },
-  error => {
-    const { response } = error
-    const resData = response?.data
-    let errorMsg = `${response?.status || error.message}：请求出错啦 ~`
-    const httpMessage = httpCode.find(item => item.code === response?.status)
-    if (httpMessage) {
-      errorMsg = httpMessage.message
-      console.error(httpMessage.message)
-    }
-    if (resData?.message && resData?.code) {
-      Toast(`${resData.code}：${resData.message}`, { type: 'error', duration: 3000 })
-    } else {
-      Toast(errorMsg, { type: 'error', duration: 3000 })
-    }
-    return Promise.reject(response)
-  }
-)
-
-// 处理Url
-function makeUrl(type: TRequestType, module: string, path: string, data: TParams) {
-  const query: TQueryType = { ...(data || {}) }
-  if (path[0] !== '/') path = `/${path}`
-  let url = ''
-  envType === 'LOCAL' ? (url = '/api') : (url = baseURL as string)
-  if (type === 'get') {
-    url += `${module}${path}?${qs.stringify(query)}`
-  } else {
-    url += `${module}${path}`
-  }
-  return url
-}
-
-// 请求封装
-export default {
-  async get<T = TAny>(
-    module: Module,
-    path: string,
-    data?: TDictObject<TAny>,
-    config?: Partial<AxiosRequestConfig>
-  ) {
-    const url = makeUrl('get', module, path, data)
-    return instance.get<null, THttpResponse<T>>(url, config)
-  },
-  async post<T = TAny>(
-    module: Module,
-    path: string,
-    data?: TDictObject<TAny> | null,
-    config?: Partial<AxiosRequestConfig>
-  ) {
-    const url = makeUrl('post', module, path, data)
-    return instance.post<null, THttpResponse<T>>(url, data ?? {}, config)
-  }
+	/**
+	 * @description 响应拦截器
+	 */
+	instance.interceptors.response.use(
+		// 成功
+		(response: AxiosResponse<TAny, THttpResponse>) => {
+			const res = response.data
+			const code = response.data.code
+			// 如果是Blob数据 则直接返回
+			if (res instanceof Blob) return res
+			if (code === ERROR_CODE.EXPIRE) {
+				Alert('登录状态已过期，请重新登录', { confirmButtonText: '确定' })
+					.then(() => {
+						// 清除浏览器全部缓存
+						superLocal.clear()
+						superSession.clear()
+						window.location.href = '/' // 去登录页
+					})
+					.catch(() => false)
+			} else if (code !== ERROR_CODE.SUCCESS) {
+				Toast(res.message || '请求失败！', { type: 'error' })
+				return Promise.reject(new Error(res.message || '请求失败！'))
+			}
+			return res
+		},
+		// 失败
+		(error) => {
+			const { response, message } = error
+			const resData = response?.data
+			let errorMsg = `${response?.status || error.message}：请求出错！`
+			const httpMessage = HTTP_CODE.find((item) => item.code === response?.status)
+			if (httpMessage) errorMsg = httpMessage.message
+			// 处理报错提示
+			if (message.indexOf('timeout') !== -1) {
+				Toast('网络超时', { type: 'error' })
+			} else if (message === 'Network Error') {
+				Toast('网络连接错误', { type: 'error' })
+			} else if (message === 'canceled') {
+				Toast('请求已取消', { type: 'error' })
+			} else if (resData?.message && resData?.code) {
+				Toast(`${resData.code}：${resData.message}`, { type: 'error' })
+			} else {
+				Toast(errorMsg, { type: 'error' })
+			}
+			return Promise.reject(error)
+		}
+	)
+	return instance
 }

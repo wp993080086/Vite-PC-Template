@@ -13,12 +13,12 @@
 ![element-plus](https://img.shields.io/badge/2.1.11-element--plus-409EFF)
 ![nprogress](https://img.shields.io/badge/0.2.0-nprogress-red)
 ![sass](https://img.shields.io/badge/1.50.1-sass-orange)
-  
+
 </div>
 
 # ⚡️ 简介
 
-一个开箱即用，基于 `vite 2` + `vue 3` + `typeScript` + `element Plus` + `pinia` + `vue-router 4` 的PC端项目模板。
+一个开箱即用，基于 `vite 4` + `vue 3` + `typeScript 5` + `element Plus` + `pinia` + `vue-router 4` 的PC端项目模板。
 
 # 🚀 开发
 
@@ -79,40 +79,122 @@ npm run lint-fix
 # 📚 目录
 
 ```
-├─ .env.xxx // 各环境的配置文件
-├─ .eslintrc.js // eslint配置
-├─ vite.config.ts // 项目配置
-├─ tsconfig.json // ts配置
-├─ index.html // 入口文件
-└─ src
-  │─ App.vue // 根容器
-  │─ main.ts
-  │  
-  ├─ components // 组件
-  │          
-  ├─ config // 项目级配置
-  │    │
-  │    └─index.ts
-  │      
-  ├─ pages // 页面
-  │                          
-  ├─ router // 路由
-  │          
-  ├─ servers // 接口
-  │   │  
-  │   │─ request.ts // 封装
-  │   └─ api // 接口
-  │      
-  ├─ assets // 静态资源
-  │              
-  ├─ store // pinia             
-  │      
-  ├─ types // ts类型定义
-  │      
-  └─ utils // 工具库
-  │ │  index.ts
-  │ │  loading.ts // loading封装
-  │ │  toast.ts // 弹窗封装
-  │ └─md5
-  └─
+│  .env.development
+│  .env.production
+│  .env.test
+│  .eslintignore
+│  .eslintrc.js
+│  .gitignore
+│  .lintstagedrc.json
+│  .prettierignore
+│  .prettierrc.js
+│  favicon.ico
+│  index.html
+│  package-lock.json
+│  package.json
+│  README.md
+│  tsconfig.json
+│  vite.config.ts
+├─.husky
+│  │  pre-commit
+│  │
+│  └─
+│    .gitignore
+│    husky.sh
+│
+├─mock
+├─public
+│      favicon.ico
+│
+└─src
+    │  App.vue
+    │  main.ts
+    │
+    ├─assets
+    │  ├─font
+    │  ├─icon
+    │  ├─images
+    │  │      404.png
+    │  │      logo.png
+    │  │
+    │  └─styles
+    │          colors.css
+    │          reset.css
+    │
+    ├─components
+    │  │  HelloWorld.vue
+    │  │
+    │  ├─dialog
+    │  └─svgIcon
+    ├─constants
+    │      index.ts
+    │
+    ├─layouts
+    │  ├─header
+    │  │      index.vue
+    │  │
+    │  └─menu
+    │          index.vue
+    │          menu-item.vue
+    │
+    ├─pages
+    │  ├─base
+    │  │  │  not-found.vue
+    │  │  │
+    │  │  └─login
+    │  │          index.vue
+    │  │
+    │  └─home
+    │          index.vue
+    │
+    ├─router
+    │  │  index.ts
+    │  │
+    │  └─routers
+    │          base.ts
+    │
+    ├─servers
+    │  │  request.ts
+    │  │
+    │  └─api
+    │      ├─files
+    │      │      index.ts
+    │      │
+    │      └─login
+    │              index.ts
+    │
+    ├─static
+    │  ├─audio
+    │  └─video
+    ├─store
+    │  │  index.ts
+    │  │
+    │  └─modules
+    │      ├─menu
+    │      │      index.ts
+    │      │
+    │      └─user
+    │              index.ts
+    │
+    ├─types
+    │  │  common.d.ts
+    │  │  declare.d.ts
+    │  │  shim.d.ts
+    │  │  source.d.ts
+    │  │
+    │  ├─servers
+    │  │      files.d.ts
+    │  │      login.d.ts
+    │  │
+    │  └─store
+    │          menu.d.ts
+    │          user.d.ts
+    │
+    └─utils
+            cookie.ts
+            index.ts
+            loading.ts
+            storage.ts
+            toast.ts
+            token.ts
 ```

@@ -1,0 +1,28 @@
+:root {
+  /* 颜色 */
+  --peng-color-primary:#409EFF;
+  --peng-color-success:#67C23A;
+  --peng-color-warning:#E6A23C;
+  --peng-color-danger:#F56C6C;
+  --peng-color-info:#909399;
+  --peng-color-dlack:#000000;
+  --peng-color-white:#ffffff;
+  /* 文字 */
+  --peng-text-primary:#303133;
+  --peng-text-secondary:#909399;
+  --peng-text-placeholder:#A8ABB2;
+  --peng-text-disabled:#C0C4CC;
+  /* 边框 */
+  --peng-border-primary:#DCDFE6;
+  --peng-border-secondary:#E4E7ED;
+  --peng-border-placeholder:#EBEEF5;
+  --peng-border-disabled:#F2F6FC;
+  /* 背景 */
+  --peng-bg-primary:#ffffff;
+  --peng-bg-secondary:#f8f8f8;
+  /* 圆角 */
+  --peng-radius-primary: 4px;
+  --peng-radius-secondary: 8px;
+  /* 过渡 */
+  --peng-transition-primary: ease 0.5s;
+}

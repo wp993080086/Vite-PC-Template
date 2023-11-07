@@ -1,20 +1,21 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import NProgress from 'nprogress'
-import base from './routers/base'
+import routerList from './router'
 
-const routes: Array<RouteRecordRaw> = [...base]
+const routes: Array<RouteRecordRaw> = [...routerList]
 
-const Router = createRouter({
-  history: createWebHistory(),
-  routes
+const router = createRouter({
+	history: createWebHistory(),
+	routes
 })
 
-Router.beforeEach(() => {
-  NProgress.start()
+router.beforeEach((to) => {
+	NProgress.start()
+	document.title = to.meta.title || '默认标题'
 })
 
-Router.afterEach(() => {
-  NProgress.done()
+router.afterEach(() => {
+	NProgress.done()
 })
 
-export default Router
+export default router

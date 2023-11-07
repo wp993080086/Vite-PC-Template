@@ -1,99 +1,92 @@
 module.exports = {
-  root: true,
-  env: {
-    browser: true,
-    node: true,
-    commonjs: true,
-    es6: true,
-    amd: true
-  },
-  globals: {
-    TDictObject: true,
-    TDictArray: true,
-    TAnyType: true,
-    TAnyArray: true,
-    TAny: true,
-    TAnyFunc: true,
-    defineProps: 'readonly',
-    defineEmits: 'readonly',
-    defineExpose: 'readonly',
-    withDefaults: 'readonly'
-  },
-  extends: [
-    'plugin:vue/vue3-recommended',
-    'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended'
-  ],
-  parser: 'vue-eslint-parser',
-  parserOptions: {
-    ecmaVersion: 2020,
-    sourceType: 'module',
-    parser: '@typescript-eslint/parser',
-    ecmaFeatures: {
-      jsx: true
-    }
-  },
-  settings: {
-    'import/resolver': {
-      node: {
-        extensions: ['.js', '.jsx', '.ts', '.tsx', 'vue'],
-      },
-    },
-  },
-  plugins: ['prettier'],
-  rules: {
-    // 0表示不不处理，1表示警告，2表示错误并退出
-    'vue/multi-word-component-names': 'off', // 要求组件名称始终为多字
-    '@typescript-eslint/no-unused-vars': 2,
-    'camelcase': 1, // 驼峰命名
-    'prettier/prettier': 0, // 会优先采用prettierrc.json的配置，不符合规则会提示错误
-    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'comma-dangle': 'off',
-    'import/prefer-default-export': 'off', // 优先export default导出
-    'no-param-reassign': 'off', // 函数参数属性的赋值
-    'semi': 'off',
-    '@typescript-eslint/no-explicit-any': 'warn',
-    'no-unused-expressions': 'off', // 联式调用使用?
-    'import/no-cycle': 'off', // 导入循环引用报错
-    'arrow-parens': 'off', // 箭头函数一个参数可以不要括号
-    'no-underscore-dangle': 'off', // 无下划线
-    'no-plusplus': 'off', //  使用一元运算符
-    'object-curly-newline': 'off',
-    'no-restricted-syntax': 'off', // 使用for of
-    'operator-linebreak': 'off', // after
-    'arrow-body-style': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'off', // ts每个函数都要显式声明返回值
-    // 暂时屏蔽检测@别名
-    'import/no-useless-path-segments': 'off',
-    'import/no-unresolved': 'off',
-    'import/extensions': 'off',
-    'import/no-absolute-path': 'off',
-    'import/no-extraneous-dependencies': 'off',
-    'newline-per-chained-call': ['error', { ignoreChainWithDepth: 10 }],
-    'linebreak-style': [0, 'error', 'windows'],
-    'no-shadow': 'off', // 注意你必须禁用基本规则，因为它可以报告不正确的错误
-    '@typescript-eslint/no-shadow': ['error'],
-    '@typescript-eslint/member-delimiter-style': [
-      'error',
-      {
-        multiline: {
-          delimiter: 'none',
-          requireLast: true,
-        },
-        singleline: {
-          delimiter: 'semi',
-          requireLast: false,
-        },
-      },
-    ],
-    'keyword-spacing': [
-      2,
-      {
-        before: true,
-        after: true,
-      },
-    ] // 强制在关键字前后使用一致的空格
-  }
+	root: true,
+	env: {
+		browser: true,
+		es2021: true,
+		node: true
+	},
+	globals: {
+		TAny: true,
+		TDict: true,
+		TFunc: true,
+		NodeJS: 'readonly',
+		defineProps: 'readonly',
+		defineEmits: 'readonly',
+		defineExpose: 'readonly',
+		withDefaults: 'readonly'
+	},
+	parser: 'vue-eslint-parser',
+	parserOptions: {
+		ecmaVersion: 12,
+		parser: '@typescript-eslint/parser',
+		sourceType: 'module'
+	},
+	extends: ['plugin:vue/vue3-essential', 'plugin:vue/essential', 'eslint:recommended'],
+	plugins: ['vue', '@typescript-eslint'],
+	rules: {
+		'@type-eslint/ban-ts-ignore': 'off', // 配置禁用 @ts-ignore 注释
+		'@type-eslint/explicit-function-return-type': 'off', // 要求函数和类方法上显式返回类型
+		'@type-eslint/no-explicit-any': 'off', // 不允许any类型
+		'@typescript-eslint/no-explicit-any': 'warn', // any不能乱用
+		'@type-eslint/no-var-requires': 'off', // 禁止require语句，import语句除外
+		'@type-eslint/no-empty-function': 'off', // 禁止空函数
+		'@type-eslint/no-use-before-define': 'off', // 禁止在定义变量之前使用变量
+		'@type-eslint/ban-ts-comment': 'off', // 禁止@ts-<指令>注释或要求指令后面有描述。
+		'@type-eslint/ban-types': 'off', // 禁止某些类型
+		'@type-eslint/no-non-null-assertion': 'off', // 不允许使用非空断言!后缀运算符
+		'@type-eslint/explicit-module-boundary-types': 'off', // 对导出函数和类的公共类方法要求显式的返回和参数类型
+		'vue/no-v-for-template-key': 0, // 不允许template上有key
+		semi: ['error', 'never'], // 使用分号
+		'comma-dangle': [
+			// 语句后面是否使用逗号
+			'error',
+			{
+				arrays: 'never',
+				objects: 'never',
+				imports: 'never',
+				exports: 'never',
+				functions: 'never'
+			}
+		],
+		'vue/custom-event-name-casing': 'off', // 为自定义事件名强制执行特定的大小写
+		'vue/attributes-order': 'off', // 强制属性的顺序
+		'vue/one-component-per-file': 'off', // 强制每个组件应该在它自己的文件中
+		'vue/html-closing-bracket-newline': 'off', // 要求或禁止在标记的右括号前换行
+		'vue/max-attributes-per-line': 'off', // 强制规定每行的最大属性数
+		'vue/multiline-html-element-content-newline': 'off', // 要求在多行元素的内容之前和之后使用换行符
+		'vue/singleline-html-element-content-newline': 'off', // 要求在单行元素的内容前后使用换行符
+		'vue/attribute-hyphenation': 'off', // 对模板中的自定义组件强制实施属性命名样式
+		'vue/html-self-closing': 'off', // 强制实施自动关闭样式
+		'vue/no-multiple-template-root': 'off', // template中只允许模板里存在一个根节点
+		'vue/require-default-prop': 'off', // props需要默认值
+		'vue/no-v-model-argument': 'off', // 检查自定义组件上是否没有参数
+		'vue/no-arrow-functions-in-watch': 'off', // 禁止使用箭头函数定义watch
+		'vue/no-template-key': 'off', // 不允许template上有key
+		'vue/no-v-html': 'off', // 禁止使用 V-HTML 来防止 XSS 攻击
+		'vue/comment-directive': 'off', // 支持注释指令
+		'vue/no-parsing-error': 'off', // 报告语法错误
+		'vue/no-deprecated-v-on-native-modifier': 'off', // 弃用修饰符 ondirective @xxx.native
+		'vue/multi-word-component-names': 'off', // 组件名称始终是多字的
+		'no-useless-escape': 'off', // 禁用不必要的转义
+		'no-sparse-arrays': 'off', // 禁用稀疏数组
+		'no-prototype-builtins': 'off', // 禁止直接使用Object.prototypes 的内置属性
+		'no-constant-condition': 'off', // 禁止在条件中使用常量表达式
+		'no-use-before-define': 'off', // 不允许在变量定义之前使用它们
+		'no-restricted-globals': 'off', // 禁用特定的全局变量
+		'no-restricted-syntax': 'off', // 禁止使用特定的语法
+		'generator-star-spacing': 'off', // 强制 generator 函数中 * 号周围有空格
+		'no-unreachable': 'off', // 禁止在return、throw、continue 和 break语句之后出现不可达代码
+		'no-unused-vars': ['error', { varsIgnorePattern: '.*', args: 'none' }], // 禁止出现未使用过的变量
+		'no-case-declarations': 'off', // 不允许在 case 子句中使用词法声明
+		'no-console': 'off', // 禁用console
+		'arrow-parens': 'off', // 箭头函数一个参数可以不要括号
+		'no-eq-null': 2, // 禁止对null使用==或!=运算符
+		quotes: [1, 'single'], // 引号类型
+		'prefer-const': 0, // 首选const
+		eqeqeq: 2, // 必须使用全等
+		'default-case': 2, // switch语句最后必须有default
+		'no-var': 0, // 禁用var，用let和const代替
+		'no-trailing-spaces': 1, // 一行结束后面不要有空格
+		'no-control-regex': 0 // 是否控制正则
+	}
 }
