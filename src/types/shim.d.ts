@@ -8,17 +8,6 @@ declare module '*.vue' {
 	const component: DefineComponent<{}, {}, TAny>
 	export default component
 }
-export {}
-
-declare module 'vue-router' {
-	interface RouteMeta {
-		requiresAuth?: boolean
-		title?: string
-		icon?: string
-		affix?: boolean
-		hidden?: boolean
-	}
-}
 
 /**
  * @description ElementPlus 中文语言包

@@ -6,6 +6,8 @@ import viteCompression from 'vite-plugin-compression'
 
 export default defineConfig(({ mode }) => {
 	return {
+		// 启用缓存
+		cacheDir: '.vite/cache',
 		plugins: [
 			vue(),
 			vueJsx(),
@@ -38,8 +40,9 @@ export default defineConfig(({ mode }) => {
 		},
 		build: {
 			outDir: 'dist',
-			// 取消计算文件大小，加快打包速度
+			// 禁用gzip压缩大小报告 可能加快构建速度
 			reportCompressedSize: false,
+			// 构建后是否生成source map文件
 			sourcemap: false,
 			rollupOptions: {
 				output: {
@@ -52,6 +55,7 @@ export default defineConfig(({ mode }) => {
 					}
 				}
 			},
+			// 触发警告的chunk大小
 			chunkSizeWarningLimit: 1024 * 1024,
 			minify: 'terser',
 			terserOptions: {
